@@ -12,3 +12,4 @@ spring:
        connection-init-sql: set nocount off
 liquibase:
   enabled: true
+  change-log: classpath:db/changelog/db.changelog-master.xml
