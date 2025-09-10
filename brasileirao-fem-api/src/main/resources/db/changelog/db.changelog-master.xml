@@ -1,0 +1,52 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="calango (generated)" id="1757532999268-1">
+        <createTable tableName="flyway_schema_history">
+            <column computed="false" name="installed_rank" type="int">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="flyway_schema_history_pk"/>
+            </column>
+            <column computed="false" name="version" type="nvarchar(50)"/>
+            <column computed="false" name="description" type="nvarchar(200)"/>
+            <column computed="false" name="type" type="nvarchar(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column computed="false" name="script" type="nvarchar(1000)">
+                <constraints nullable="false"/>
+            </column>
+            <column computed="false" name="checksum" type="int"/>
+            <column computed="false" name="installed_by" type="nvarchar(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column computed="false" defaultValueComputed="getdate()" defaultValueConstraintName="DF__flyway_sc__insta__3C69FB99" name="installed_on" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column computed="false" name="execution_time" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column computed="false" name="success" type="bit">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="calango (generated)" id="1757532999268-2">
+        <createTable tableName="tb_time">
+            <column autoIncrement="true" computed="false" name="id" type="numeric(10, 0)">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_TIME"/>
+            </column>
+            <column computed="false" name="nome" type="varchar(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column computed="false" name="tecnico" type="varchar(50)"/>
+            <column computed="false" name="localidade" type="varchar(50)"/>
+            <column computed="false" name="mascote" type="varchar(30)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="calango (generated)" id="1757532999268-3">
+        <createIndex indexName="flyway_schema_history_s_idx" tableName="flyway_schema_history">
+            <column name="success"/>
+        </createIndex>
+    </changeSet>
+    <changeSet author="calango (generated)" id="1757532999268-4">
+        <addUniqueConstraint columnNames="nome" constraintName="UQ__tb_time__6F71C0DC75870D17" tableName="tb_time"/>
+    </changeSet>
+</databaseChangeLog>

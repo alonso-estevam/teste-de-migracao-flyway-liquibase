@@ -1,7 +1,17 @@
+buildscript {
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath 'org.liquibase:liquibase-core:4.29.1'
+	}
+}
+
 plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.5.5'
 	id 'io.spring.dependency-management' version '1.1.7'
+	id 'org.liquibase.gradle' version '2.2.0'
 }
 
 group = 'com.playground'
@@ -32,11 +42,41 @@ ext {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.flywaydb:flyway-core'
-	implementation 'org.flywaydb:flyway-sqlserver'
+//	implementation 'org.flywaydb:flyway-core'
+//	implementation 'org.flywaydb:flyway-sqlserver'
+
+	// LIQUIBASE
+	/*	The plugin will need to be able to find Liquibase on the classpath when it is applied, and again when it runs a task.
+	At apply time, the plugin only needs to be able to see Liquibase itself. At execution time, Liquibase will need to be able
+	to find database drivers, changelog parsers, etc. in the classpath. this is done by adding Liquibase to buildscript
+	dependencies, as well as one or more liquibaseRuntime dependencies to the dependencies block in the build.gradle file.
+	 At a minimum, you'll need to include Liquibase itself along with a database driver.
+	 Liquibase 4.4.0+ also requires the picocli library.
+	 Source: https://github.com/liquibase/liquibase-gradle-plugin/blob/master/doc/usage.md
+	 */
+	implementation 'org.liquibase:liquibase-core:4.29.1'
+	liquibaseRuntime 'org.liquibase:liquibase-core:4.29.1'
+	liquibaseRuntime 'com.microsoft.sqlserver:mssql-jdbc:8.4.1.jre11'
+	liquibaseRuntime group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1'
+	liquibaseRuntime 'info.picocli:picocli:4.7.5'
+	liquibaseRuntime 'ch.qos.logback:logback-core:1.2.3'
+	liquibaseRuntime 'ch.qos.logback:logback-classic:1.2.3'
+
+	implementation 'com.microsoft.sqlserver:mssql-jdbc:8.4.1.jre11'
 	compileOnly 'org.projectlombok:lombok'
-	runtimeOnly 'com.microsoft.sqlserver:mssql-jdbc'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+}
+
+liquibase {
+	activities {
+		main {
+			changelogFile 'src/main/resources/db/changelog/db.changelog-master.xml'
+			url 'jdbc:sqlserver://localhost:1433;databaseName=brasileirao_fem_2025'
+			username 'sa'
+			password 'minhasenha'
+			driver 'com.microsoft.sqlserver.jdbc.SQLServerDriver'
+		}
+	}
 }

@@ -10,3 +10,5 @@ spring:
        initSQL: set nocount off
      hikari:
        connection-init-sql: set nocount off
+liquibase:
+  enabled: true
