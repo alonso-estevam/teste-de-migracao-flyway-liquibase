@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: brasileirao-fem-api
+  datasource:
+     url: jdbc:sqlserver://localhost:1433;databaseName=brasileirao_fem_2025;sendStringParametersAsUnicode=false;encrypt=false
+     username: sa
+     password: BJdPweu952n#
+     driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+     tomcat:
+       initSQL: set nocount off
+     hikari:
+       connection-init-sql: set nocount off
